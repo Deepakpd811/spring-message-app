@@ -17,11 +17,15 @@ public class GreetingController {
     @Autowired
     private GreetingService greetingService;
 
-    // UC2 send response using service layer greeting service
+  
+    // Accept fristname and lastname as optional query param
     @GetMapping
-    public Map<String, String> getGreet() {
+    public Map<String, String> getGreet(
+            @RequestParam(required = false) String firstname,
+            @RequestParam(required = false) String lastname
+    ) {
 
-        String message = greetingService.getGreeting();
+        String message = greetingService.getGreeting(firstname,lastname);
 
         return Map.of("Message",message);
     }
