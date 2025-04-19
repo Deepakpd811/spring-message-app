@@ -1,6 +1,8 @@
 package com.bridgelab.message_app.controller;
 
 
+import com.bridgelab.message_app.service.GreetingService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -12,10 +14,16 @@ public class GreetingController {
 
     Map<String, String> response = new HashMap<>();
 
+    @Autowired
+    private GreetingService greetingService;
+
+    // UC2 send response using service layer greeting service
     @GetMapping
     public Map<String, String> getGreet() {
-        response.put("Message ", "Good morning get");
-        return response;
+
+        String message = greetingService.getGreeting();
+
+        return Map.of("Message",message);
     }
 
     @PostMapping
