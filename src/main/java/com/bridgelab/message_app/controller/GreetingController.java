@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -44,7 +45,7 @@ public class GreetingController {
     }
 
 
-
+    // Get greeting by id
     @GetMapping("/{id}")
     public ResponseEntity<Greeting> getGreetingById(@PathVariable long id) {
         Optional<Greeting> result = greetingService.getGreetingById(id);
@@ -54,6 +55,13 @@ public class GreetingController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    // Get all greeting
+    @GetMapping("/all")
+    public ResponseEntity<List<Greeting>> getAllGreeting(){
+        List<Greeting> allGreet = greetingService.getAllGreeting();
+        return ResponseEntity.ok(allGreet);
     }
 
 
