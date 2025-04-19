@@ -37,9 +37,9 @@ public class GreetingService {
 
         if (firstName != null && !lastName.isBlank()) {
             message = "Hello " + firstName + " " + lastName;
-        } else if (firstName != null ) {
+        } else if (firstName != null) {
             message = "Hello " + firstName;
-        } else if (lastName != null ) {
+        } else if (lastName != null) {
             message = "Hello " + lastName;
         } else {
             message = "Hello World";
@@ -55,7 +55,7 @@ public class GreetingService {
     }
 
     // list all greeting
-    public List<Greeting> getAllGreeting(){
+    public List<Greeting> getAllGreeting() {
         return greetingRepository.findAll();
     }
 
@@ -74,6 +74,16 @@ public class GreetingService {
     }
 
 
+    public boolean deleteGreeting(Long id) {
+
+        if (greetingRepository.existsById(id)) {
+            greetingRepository.deleteById(id);
+            return true;
+        }
+
+        return false;
+
+    }
 
 
 }

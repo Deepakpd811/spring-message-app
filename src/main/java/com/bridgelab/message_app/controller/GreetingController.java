@@ -22,7 +22,6 @@ public class GreetingController {
     @Autowired
     private GreetingService greetingService;
 
-
     // Accept fristname and lastname as optional query param
     @GetMapping
     public Map<String, String> getGreet(
@@ -64,7 +63,6 @@ public class GreetingController {
         return ResponseEntity.ok(allGreet);
     }
 
-
     // update the message by id
     @PutMapping("/{id}")
     public ResponseEntity<Greeting> putGreet(
@@ -83,10 +81,20 @@ public class GreetingController {
 
     }
 
-    @DeleteMapping
-    public Map<String, String> deleteGreet() {
-        response.put("Message ", "Good morning delete");
-        return response;
+    // delete message by id
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteGreet(
+            @PathVariable Long id
+    ) {
+        boolean deleted = greetingService.deleteGreeting(id);
+
+        if (deleted) {
+            return ResponseEntity.ok().build();
+        } else {
+
+            return ResponseEntity.notFound().build();
+        }
+
     }
 
 
