@@ -2,6 +2,7 @@ package com.bridgelab.message_app.controller;
 
 
 import com.bridgelab.message_app.dto.GreetingRequest;
+import com.bridgelab.message_app.model.Greeting;
 import com.bridgelab.message_app.service.GreetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/greeting")
@@ -40,6 +42,20 @@ public class GreetingController {
 
         return ResponseEntity.ok(Map.of("message ", message));
     }
+
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Greeting> getGreetingById(@PathVariable long id) {
+        Optional<Greeting> result = greetingService.getGreetingById(id);
+
+        if (result.isPresent()) {
+            return ResponseEntity.ok(result.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
 
     @PutMapping

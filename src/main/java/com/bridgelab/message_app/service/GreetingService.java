@@ -6,6 +6,8 @@ import com.bridgelab.message_app.repository.GreetingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class GreetingService {
 
@@ -45,5 +47,8 @@ public class GreetingService {
         return message;
     }
 
+    public Optional<Greeting> getGreetingById(Long id) {
+        return greetingRepository.findById(id);
+    }
 
 }
