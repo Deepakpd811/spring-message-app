@@ -22,7 +22,7 @@ public class GreetingController {
     @Autowired
     private GreetingService greetingService;
 
-  
+
     // Accept fristname and lastname as optional query param
     @GetMapping
     public Map<String, String> getGreet(
@@ -30,16 +30,16 @@ public class GreetingController {
             @RequestParam(required = false) String lastname
     ) {
 
-        String message = greetingService.getGreeting(firstname,lastname);
+        String message = greetingService.getGreeting(firstname, lastname);
 
-        return Map.of("Message",message);
+        return Map.of("Message", message);
     }
 
     // create a greeting message 
     @PostMapping
-    public ResponseEntity<Map<String,String>> postGreet(@RequestBody GreetingRequest request) {
+    public ResponseEntity<Map<String, String>> postGreet(@RequestBody GreetingRequest request) {
         // save to db
-        String message = greetingService.postGreetingMessage(request.getFirstname(),request.getLastname());
+        String message = greetingService.postGreetingMessage(request.getFirstname(), request.getLastname());
 
         return ResponseEntity.ok(Map.of("message ", message));
     }
@@ -59,17 +59,28 @@ public class GreetingController {
 
     // Get all greeting
     @GetMapping("/all")
-    public ResponseEntity<List<Greeting>> getAllGreeting(){
+    public ResponseEntity<List<Greeting>> getAllGreeting() {
         List<Greeting> allGreet = greetingService.getAllGreeting();
         return ResponseEntity.ok(allGreet);
     }
 
 
+    // update the message by id
+    @PutMapping("/{id}")
+    public ResponseEntity<Greeting> putGreet(
+            @RequestBody GreetingRequest request,
+            @PathVariable Long id
+    ) {
 
-    @PutMapping
-    public Map<String, String> putGreet() {
-        response.put("Message ", "Good morning put");
-        return response;
+        Optional<Greeting> greeting = greetingService.updateGreeting(id, request.getMessage());
+
+        if (greeting.isPresent()) {
+            return ResponseEntity.ok(greeting.get());
+        } else {
+
+            return ResponseEntity.notFound().build();
+        }
+
     }
 
     @DeleteMapping

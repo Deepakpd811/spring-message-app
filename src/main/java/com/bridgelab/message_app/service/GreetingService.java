@@ -1,6 +1,7 @@
 package com.bridgelab.message_app.service;
 
 
+import com.bridgelab.message_app.dto.GreetingRequest;
 import com.bridgelab.message_app.model.Greeting;
 import com.bridgelab.message_app.repository.GreetingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,12 +49,33 @@ public class GreetingService {
         return message;
     }
 
+    // get greeting by id
     public Optional<Greeting> getGreetingById(Long id) {
         return greetingRepository.findById(id);
     }
 
+    // list all greeting
     public List<Greeting> getAllGreeting(){
         return greetingRepository.findAll();
     }
 
+    // update the greet message
+    public Optional<Greeting> updateGreeting(Long id, String newMessage) {
+        Optional<Greeting> optionalGreeting = greetingRepository.findById(id);
+
+        if (optionalGreeting.isPresent()) {
+            Greeting greeting = optionalGreeting.get();
+            greeting.setMessage(newMessage);
+            Greeting updatedGreeting = greetingRepository.save(greeting);
+            return Optional.of(updatedGreeting);
+        } else {
+            return Optional.empty();
+        }
+    }
+
+
+
+
 }
+
+
