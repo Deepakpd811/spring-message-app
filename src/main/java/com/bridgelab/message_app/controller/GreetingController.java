@@ -1,8 +1,10 @@
 package com.bridgelab.message_app.controller;
 
 
+import com.bridgelab.message_app.dto.GreetingRequest;
 import com.bridgelab.message_app.service.GreetingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -30,11 +32,15 @@ public class GreetingController {
         return Map.of("Message",message);
     }
 
+    // create a greeting message 
     @PostMapping
-    public Map<String, String> postGreet() {
-        response.put("Message ", "Good morning post");
-        return response;
+    public ResponseEntity<Map<String,String>> postGreet(@RequestBody GreetingRequest request) {
+        // save to db
+        String message = greetingService.postGreetingMessage(request.getFirstname(),request.getLastname());
+
+        return ResponseEntity.ok(Map.of("message ", message));
     }
+
 
     @PutMapping
     public Map<String, String> putGreet() {
